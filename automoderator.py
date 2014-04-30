@@ -4,7 +4,7 @@ from time import sleep, time
 
 import HTMLParser
 import praw
-import re2 as re
+import re
 import yaml
 from requests.exceptions import HTTPError
 from sqlalchemy.sql import and_
@@ -726,7 +726,6 @@ def process_messages():
             try:
                 # workaround for praw clearing mod sub list on accept
                 mod_subs = r.user._mod_subs
-                r.accept_moderator_invite(subreddit)
                 r.user._mod_subs = mod_subs
                 r.user._mod_subs[subreddit] = r.get_subreddit(subreddit)
                 logging.info('Accepted mod invite in /r/{0}'
@@ -1153,7 +1152,6 @@ def get_enabled_subreddits(reload_mod_subs=True):
 def main():
     global r
     logging.config.fileConfig(path_to_cfg)
-    re.set_fallback_notification(re.FALLBACK_EXCEPTION)
 
     # which queues to check and the function to call
     queue_funcs = {'report': 'get_reports',
